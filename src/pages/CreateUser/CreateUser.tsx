@@ -1,7 +1,17 @@
-// TODO: use Tailwind
+import { useTranslation } from 'react-i18next';
 
-const CreateUser = () => {
-  return <div>qwe</div>;
-};
+function CreateUser() {
+  const { t } = useTranslation();
+
+  const firstname = 'Ari';
+  const lastname = 'Mar';
+
+  return (
+    <div>
+      <div>{t('title')}</div>
+      <div>{t('newUserName', { firstname, lastname })}</div>
+    </div>
+  );
+}
 
 export default CreateUser;
