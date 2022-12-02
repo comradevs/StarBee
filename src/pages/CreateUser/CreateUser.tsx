@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next';
+import { useTranslation, withTranslation } from 'react-i18next';
 
 function CreateUser() {
   const { t } = useTranslation();
@@ -8,10 +8,10 @@ function CreateUser() {
 
   return (
     <div>
-      <div>{t('title')}</div>
-      <div>{t('newUserName', { firstname, lastname })}</div>
+      <div>{t('createUserPage.title')}</div>
+      <div>{t('createUserPage.newUserName', { firstname, lastname })}</div>
     </div>
   );
 }
 
-export default CreateUser;
+export default withTranslation()(CreateUser);
