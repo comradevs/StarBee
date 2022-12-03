@@ -1,0 +1,8 @@
+{
+  "common": { "loading": "Loading..." },
+  "platform": { "name": "StarBee" },
+  "createUserPage": {
+    "title": "Welcome to $t(platform.name)!",
+    "newUserName": "{{firstname}} {{lastname}} successfully added"
+  }
+}
