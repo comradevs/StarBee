@@ -8,11 +8,21 @@ import {
   useForm,
   UseFormRegister,
 } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 const mock = { firstname: 'Ari', lastname: 'Mar' };
 // Temp: Classes
 const input = 'border';
 const error = 'text-red-500 absolute top-6 left-0';
+
+const schema = yup
+  .object({
+    firstName: yup.string().required().min(2),
+    lastname: yup.string().required(),
+    role: yup.string().required(),
+  })
+  .required();
 
 interface IFormValues {
   firstname: string;
@@ -68,12 +78,14 @@ function CreateUser() {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({ resolver: yupResolver(schema) });
   const watchFirstname = watch('firstname', '');
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     console.log(data);
+    reset();
   };
 
   return (
@@ -92,7 +104,7 @@ function CreateUser() {
             {...register('firstname', { required: true, min: 2 })}
           />
           <Input label="First Name" name="firstname" register={register} required />
-          <input {...register('lastname', { required: true })} />
+          <input {...register('lastname')} />
           {errors.lastname && <span className={error}>Fields are required</span>}
         </div>
         <div className="relative mt-4">
