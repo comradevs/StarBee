@@ -21,6 +21,8 @@
     "react/jsx-props-no-spreading": ["off"],
     "react/no-unescaped-entities": ["off"],
     "@typescript-eslint/no-unused-vars": ["warn"],
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": ["off"],
+    "object-curly-newline": ["off"],
+    "@typescript-eslint/indent": ["warn"]
   }
 }
