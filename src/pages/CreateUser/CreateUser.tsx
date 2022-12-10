@@ -2,6 +2,7 @@ import React, { ForwardedRef } from 'react';
 import { useTranslation, withTranslation } from 'react-i18next';
 import {
   ChangeHandler,
+  FieldErrorsImpl,
   FieldValues,
   Path,
   SubmitHandler,
@@ -18,7 +19,7 @@ const error = 'text-red-500 absolute top-6 left-0';
 
 const schema = yup
   .object({
-    firstName: yup.string().required().min(2),
+    firstname: yup.string().required().min(2),
     lastname: yup.string().required(),
     role: yup.string().required(),
   })
@@ -34,7 +35,11 @@ type InputProps = {
   label: string;
   name: Path<IFormValues>;
   register: UseFormRegister<FieldValues>;
-  required: boolean;
+  errors: Partial<
+    FieldErrorsImpl<{
+      [x: string]: string;
+    }>
+  >;
 };
 
 type SelectProps = {
@@ -44,12 +49,16 @@ type SelectProps = {
   onBlur: ChangeHandler;
 };
 
-function Input({ label, name, register, required }: InputProps) {
+function Input({ label, name, errors, register }: InputProps) {
+  const errorMessage = errors[name]?.message;
   return (
-    <>
-      <label htmlFor={name}>{label}</label>
-      <input {...register(name, { required })} className={`${input} w-[calc(50%+-8px)]`} />
-    </>
+    <div className="relative mb-6">
+      <label htmlFor={name} className="mr-2">
+        {label}
+      </label>
+      <input {...register(name)} className={`${input} w-[calc(50%+-8px)]`} />
+      {errorMessage && <span className={error}>{errorMessage}</span>}
+    </div>
   );
 }
 
@@ -99,13 +108,8 @@ function CreateUser() {
         className="shadow-md flex flex-col mt-4 mb-4 w-1/2 p-2"
       >
         <div className="relative">
-          <input
-            className={`${input} mr-4 w-[calc(50%+-8px)]`}
-            {...register('firstname', { required: true, min: 2 })}
-          />
-          <Input label="First Name" name="firstname" register={register} required />
-          <input {...register('lastname')} />
-          {errors.lastname && <span className={error}>Fields are required</span>}
+          <Input label="First Name" name="firstname" register={register} errors={errors} />
+          <Input label="Last Name" name="lastname" register={register} errors={errors} />
         </div>
         <div className="relative mt-4">
           <Select label="Role" {...register('role')} />
